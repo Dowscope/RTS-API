@@ -1,11 +1,11 @@
 [Unit]
-Description=RTX API
+Description=RTS API
 After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/var/www/RTX-API
-ExecStart=/usr/bin/node /var/www/RTX-API/index.js
+WorkingDirectory=/var/www/RTS-API
+ExecStart=/usr/bin/node /var/www/RTS-API/index.js
 Restart=always
 User=root
 Group=root
