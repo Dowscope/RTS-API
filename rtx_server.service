@@ -1,0 +1,12 @@
+[Unit]
+Description=RTX Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/RTX-API
+ExecStart=/usr/bin/node /var/www/RTX-API/index.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
