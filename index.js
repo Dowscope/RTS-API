@@ -14,11 +14,11 @@ app.get('/status', (req, res) => {
   exec('systemctl is-active godot-server.service', (err, stdout, stderr) => {
     if (err) {
       console.error(`Error checking service ${err.message}`);
-      return res.json({status: 'unknown'});
+      return res.json({status: `Error: ${err.message}`});
     }
     if (stderr) {
       console.error(`Service stderr:  ${err.message}`);
-      return res.json({status: 'unknown'});
+      return res.json({status: `Error: ${stderr}`});
     }
     res.json({status: stdout.trim()});
   });
