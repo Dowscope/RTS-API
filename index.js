@@ -27,4 +27,18 @@ app.get('/status', (req, res) => {
   });
 });
 
+app.post('/reboot', (req, res) => {
+  exec('systemctl restart godot-server.service', (err, stdout, stderr) => {
+    if (err) {
+      console.error(`Error checking service: ${err.message}`);
+      return res.json({ status: `Error: ${err.message}` });
+    }
+    if (stderr) {
+      console.error(`Service stderr:  ${err.message}`);
+      return res.json({status: `Error: ${stderr}`});
+    }
+    res.json({status: "success"});
+  });
+});
+
 app.listen(55001, () => console.log("Running on port: 55001"));
