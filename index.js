@@ -13,8 +13,11 @@ app.use(cors({
 app.get('/status', (req, res) => {
   exec('systemctl is-active godot-server.service', (err, stdout, stderr) => {
     if (err) {
-      console.error(`Error checking service ${err.message}`);
-      return res.json({status: `Error: ${err.message}`});
+      if (stdout.trim() === "inactive") {
+        return res.json({ status: "inactive" });
+      }
+      console.error(`Error checking service: ${err.message}`);
+      return res.json({ status: `Error: ${err.message}` });
     }
     if (stderr) {
       console.error(`Service stderr:  ${err.message}`);
