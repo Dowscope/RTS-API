@@ -75,7 +75,7 @@ app.post('/reboot', (req, res) => {
 /****************************************************
  * Upload a RuleSet
  ***************************************************/
-app.post('/upload_ruleset', ruleset_upload.single(file), (req, res) => {
+app.post('/upload_ruleset', ruleset_upload.single('file'), (req, res) => {
   if (!req.file) {
     console.log("UPLOAD RULESET: No file uploaded");
     return res.json({status: "Error: No file uploaded"});
