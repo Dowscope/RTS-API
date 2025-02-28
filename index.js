@@ -83,4 +83,26 @@ app.post('/upload_ruleset', ruleset_upload.single('file'), (req, res) => {
   res.json({status: "success", comment: `File ${req.file.originalname} uploaded successfully.`});
 });
 
+app.get('/rulesets', (req, res) => {
+  try {
+    const files = fs.readdirSync(rulesetsDir);
+
+    if (!files) {
+      return res.json({success: false, reason: "No files found in the RuleSets directory."});
+    }
+    
+    const fileStats = files.map(f => {
+      const stats = fs.statSync(path.join(rulesetsDir, f));
+      if (stats.isFile()) {
+        return {name: f, size: stats.size, modified: stats.mtime};
+      }
+    });
+
+    res.json({success: true, files: fileStats});
+  }
+  catch (err) {
+    res.json({success: false, reason: err.message});
+  }
+});
+
 app.listen(55001, () => console.log("Running on port: 55001"));
