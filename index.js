@@ -105,4 +105,20 @@ app.get('/rulesets', (req, res) => {
   }
 });
 
+/****************************************************
+ * Get RuleSet File
+ ***************************************************/
+app.get('/ruleset/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filepath = path.join(rulesetsDir, filename);
+  if (!fs.existsSync(filepath)) {
+    return res.json({success: false, reason: "File not found"});
+  }
+  const file = fs.readFileSync(filepath);
+  if (!file) {
+    return res.json({success: false, reason: "Error reading file"});
+  }
+  res.json({success: true, file: file.toString('base64')});
+});
+
 app.listen(55001, () => console.log("Running on port: 55001"));
