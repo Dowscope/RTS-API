@@ -130,10 +130,10 @@ app.get('/logfile/:filename', (req, res) => {
   const filename = req.params.filename;
   const sublogdir = filename.slice(-4);
   const filepath = path.join(logfilesDir, sublogdir, filename);
+  console.log(filepath);
   if (!fs.existsSync(filepath)) {
     return res.json({success: false, reason: "File not found"});
   }
-  console.log(filepath);
   const file = fs.readFileSync(filepath);
   if (!file) {
     return res.json({success: false, reason: "Error reading file"});
