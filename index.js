@@ -133,11 +133,12 @@ app.get('/logfile/:filename', (req, res) => {
   if (!fs.existsSync(filepath)) {
     return res.json({success: false, reason: "File not found"});
   }
+  console.log(filepath);
   const file = fs.readFileSync(filepath);
   if (!file) {
     return res.json({success: false, reason: "Error reading file"});
   }
-  res.json({success: true, file: file.toString()});
+  res.json({success: true, file: file});
 });
 
 app.listen(55001, () => console.log("Running on port: 55001"));
