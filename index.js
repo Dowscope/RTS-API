@@ -137,7 +137,6 @@ app.get('/logfile/:filename', (req, res) => {
   if (!file) {
     return res.json({success: false, reason: "Error reading file"});
   }
-  console.log(file);
   res.json({success: true, file: file});
 });
 
