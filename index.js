@@ -29,6 +29,8 @@ const ruleset_upload = multer({ storage: ruleset_storage });
 
 /****************************************************/
 
+const logfilesDir = '/home/smooth/.local/share/godot/app_userdata/Server/datalogs';
+
 app.use(cors({
   origin: ['http://localhost:55000', 'http://dowscopemedia.ca', 'http://localhost:8080'],
   methods: ['GET', 'POST'],
@@ -119,6 +121,23 @@ app.get('/ruleset/:filename', (req, res) => {
     return res.json({success: false, reason: "Error reading file"});
   }
   res.json({success: true, file: file.toString('base64')});
+});
+
+/****************************************************
+ * Get Log File
+ ***************************************************/
+app.get('/logfile/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const sublogdir = filename.slice(-4);
+  const filepath = path.join(logfilesDir, sublogdir, filename);
+  if (!fs.existsSync(filepath)) {
+    return res.json({success: false, reason: "File not found"});
+  }
+  const file = fs.readFileSync(filepath);
+  if (!file) {
+    return res.json({success: false, reason: "Error reading file"});
+  }
+  res.json({success: true, file: file.toString()});
 });
 
 app.listen(55001, () => console.log("Running on port: 55001"));
