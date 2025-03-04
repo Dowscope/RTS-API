@@ -133,11 +133,11 @@ app.get('/logfile/:filename', (req, res) => {
   if (!fs.existsSync(filepath)) {
     return res.json({success: false, reason: "File not found"});
   }
-  const file = fs.readFileSync(filepath);
+  const file = fs.readFileSync(filepath, "utf8");
   if (!file) {
     return res.json({success: false, reason: "Error reading file"});
   }
-  console.log(file.toString('base64'));
+  console.log(file);
   res.json({success: true, file: file});
 });
 
